@@ -287,7 +287,7 @@
 
     <!-- main page -->
     <div class="mdc-drawer-scrim sidenav-scrim"></div>
-    <header class="toolbar-1 has-bg-image">
+    <header class="toolbar-1 <%= page === 'home' || page === 'about' || page === 'contact' ? 'has-bg-image' : ''%>">
 
         <!-- top menu -->
         <div id="top-toolbar" class="mdc-top-app-bar">
@@ -362,7 +362,7 @@
                     <div class="mdc-menu-surface--anchor">
                         <button class="mdc-button mdc-ripple-surface mutable">
                             <span class="mdc-button__ripple"></span>
-                            <img src="./assets/images/flags/gb.svg" alt="" width="18">
+                            <img src="/assets/images/flags/gb.svg" alt="" width="18">
                             <span class="mdc-button__label flag-name d-none d-lg-flex d-xl-flex"><span
                                     class="mutable">English</span></span>
                             <i class="material-icons mdc-button__icon m-0">arrow_drop_down</i>
@@ -371,23 +371,23 @@
                             <ul class="mdc-list" role="menu" aria-hidden="true" aria-orientation="vertical"
                                 tabindex="-1">
                                 <li class="mdc-list-item" role="menuitem">
-                                    <img src="./assets/images/flags/gb.svg" alt="" width="18" class="mdc-elevation--z1">
+                                    <img src="/assets/images/flags/gb.svg" alt="" width="18" class="mdc-elevation--z1">
                                     <span class="mdc-list-item__text flag-name">English</span>
                                 </li>
                                 <li class="mdc-list-item" role="menuitem">
-                                    <img src="./assets/images/flags/de.svg" alt="" width="18" class="mdc-elevation--z1">
+                                    <img src="/assets/images/flags/de.svg" alt="" width="18" class="mdc-elevation--z1">
                                     <span class="mdc-list-item__text flag-name">German</span>
                                 </li>
                                 <li class="mdc-list-item" role="menuitem">
-                                    <img src="./assets/images/flags/fr.svg" alt="" width="18" class="mdc-elevation--z1">
+                                    <img src="/assets/images/flags/fr.svg" alt="" width="18" class="mdc-elevation--z1">
                                     <span class="mdc-list-item__text flag-name">French</span>
                                 </li>
                                 <li class="mdc-list-item" role="menuitem">
-                                    <img src="./assets/images/flags/ru.svg" alt="" width="18" class="mdc-elevation--z1">
+                                    <img src="/assets/images/flags/ru.svg" alt="" width="18" class="mdc-elevation--z1">
                                     <span class="mdc-list-item__text flag-name">Russian</span>
                                 </li>
                                 <li class="mdc-list-item" role="menuitem">
-                                    <img src="./assets/images/flags/tr.svg" alt="" width="18" class="mdc-elevation--z1">
+                                    <img src="/assets/images/flags/tr.svg" alt="" width="18" class="mdc-elevation--z1">
                                     <span class="mdc-list-item__text flag-name">Turkish</span>
                                 </li>
                             </ul>
@@ -404,7 +404,7 @@
                             <ul class="mdc-list" role="menu" aria-hidden="true" aria-orientation="vertical"
                                 tabindex="-1">
                                 <li class="user-info row start-xs middle-xs">
-                                    <img src="assets/images/others/user.jpg" alt="user-image" width="50">
+                                    <img src="/assets/images/others/user.jpg" alt="user-image" width="50">
                                     <p class="m-0">Emilio Verdines <br> <small><i>emilio_v</i></small></p>
                                 </li>
                                 <li role="separator" class="mdc-list-divider m-0"></li>
@@ -421,18 +421,18 @@
                                     </a>
                                 </li>
                                 <li>
-                                    <a href="favorites.html" class="mdc-list-item" role="menuitem">
+                                    <a href="/listing/favourite" class="mdc-list-item" role="menuitem">
                                         <i class="material-icons mat-icon-sm text-muted">favorite_border</i>
                                         <span class="mdc-list-item__text px-3">Favorites
-                                            <span class="badge warn">2</span>
+                                            <span id="favourite-header" class="badge warn"><%= favourite.length %></span>
                                         </span>
                                     </a>
                                 </li>
                                 <li>
-                                    <a href="compare.html" class="mdc-list-item" role="menuitem">
+                                    <a href="/listing/compare" class="mdc-list-item" role="menuitem">
                                         <i class="material-icons mat-icon-sm text-muted">compare_arrows</i>
                                         <span class="mdc-list-item__text px-3">Compare
-                                            <span class="badge primary">3</span>
+                                            <span id="compare-header" class="badge primary"><%= compare.length %></span>
                                         </span>
                                     </a>
                                 </li>
@@ -477,7 +477,7 @@
         <!-- main toolbar -->
         <div id="main-toolbar" class="mdc-elevation--z2">
             <div class="theme-container row between-xs middle-xs h-100">
-                <a class="logo" href="index.html">
+                <a class="logo" href="/">
                     <svg xmlns="http://www.w3.org/2000/svg" style="fill-rule:evenodd;" width="212" height="37"
                         viewBox="0 0 4271.87 748.74">
                         <path
@@ -667,9 +667,9 @@
                     </div>
                 </div>
                 <div class="row middle-xs">
-                    <a href="favorites.html" class="mdc-icon-button material-icons d-none d-lg-flex d-xl-flex"
+                    <a href="/listing/favourite" class="mdc-icon-button material-icons d-none d-lg-flex d-xl-flex"
                         title="Favorites">favorite_border</a>
-                    <a href="compare.html" class="mdc-icon-button material-icons d-none d-lg-flex d-xl-flex mr-3 ml-2"
+                    <a href="/listing/compare" class="mdc-icon-button material-icons d-none d-lg-flex d-xl-flex mr-3 ml-2"
                         title="Compare list">compare_arrows</a>
                     <a href="submit-property.html"
                         class="mdc-fab mdc-fab--mini primary d-sm-none d-md-none d-lg-none d-xl-none">

@@ -15,6 +15,7 @@ let express = require("express"),
 require('dotenv').config();
 
 let indexRoutes = require("./routes/index");
+let listingRoutes = require("./routes/listing");
 
 // assign mongoose promise library and connect to database
 mongoose.Promise = global.Promise;
@@ -46,21 +47,23 @@ app.locals.moment = require('moment');
 
 // PASSPORT CONFIGURATION
 app.use(session({
-    secret: "Policy selling business",
+    secret: "Flat Broker Rent Lease Mortgage Plot Shop",
     resave: false,
     saveUninitialized: false,
     store: new MongoStore({ mongooseConnection: mongoose.connection })
 }));
 
 app.use(flash());
-// app.use(passport.initialize());
-// app.use(passport.session());
-// passport.use(new LocalStrategy(User.authenticate()));
-// passport.serializeUser(User.serializeUser());
-// passport.deserializeUser(User.deserializeUser());
+app.use(passport.initialize());
+app.use(passport.session());
+passport.use(new LocalStrategy(User.authenticate()));
+passport.serializeUser(User.serializeUser());
+passport.deserializeUser(User.deserializeUser());
 
 app.use(function (req, res, next) {
     res.locals.currentUser = req.user;
+    res.locals.compare = req.session.compare || [];
+    res.locals.favourite = req.session.favourite || [];
     res.locals.success = req.flash('success');
     res.locals.error = req.flash('error');
     next();
@@ -68,6 +71,7 @@ app.use(function (req, res, next) {
 
 // root route
 app.use("/", indexRoutes);
+app.use("/listing", listingRoutes);
 
 app.listen(3000, function () {
     console.log("The server has started!");

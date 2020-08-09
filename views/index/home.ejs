@@ -767,7 +767,7 @@
                                 <button class="mdc-button add-to-favorite" title="Add To Favorite">
                                     <i class="material-icons mat-icon-sm">favorite_border</i>
                                 </button>
-                                <button class="mdc-button" title="Add To Compare">
+                                <button class="mdc-button add-to-compare" title="Add To Compare">
                                     <i class="material-icons mat-icon-sm">compare_arrows</i>
                                 </button>
                             </div>
@@ -880,7 +880,7 @@
                                 <button class="mdc-button add-to-favorite" title="Add To Favorite">
                                     <i class="material-icons mat-icon-sm">favorite_border</i>
                                 </button>
-                                <button class="mdc-button" title="Add To Compare">
+                                <button class="mdc-button add-to-compare" title="Add To Compare">
                                     <i class="material-icons mat-icon-sm">compare_arrows</i>
                                 </button>
                             </div>
@@ -993,7 +993,7 @@
                                 <button class="mdc-button add-to-favorite" title="Add To Favorite">
                                     <i class="material-icons mat-icon-sm">favorite_border</i>
                                 </button>
-                                <button class="mdc-button" title="Add To Compare">
+                                <button class="mdc-button add-to-compare" title="Add To Compare">
                                     <i class="material-icons mat-icon-sm">compare_arrows</i>
                                 </button>
                             </div>
@@ -1100,7 +1100,7 @@
                                 <button class="mdc-button add-to-favorite" title="Add To Favorite">
                                     <i class="material-icons mat-icon-sm">favorite_border</i>
                                 </button>
-                                <button class="mdc-button" title="Add To Compare">
+                                <button class="mdc-button add-to-compare" title="Add To Compare">
                                     <i class="material-icons mat-icon-sm">compare_arrows</i>
                                 </button>
                             </div>
@@ -1201,7 +1201,7 @@
                                 <button class="mdc-button add-to-favorite" title="Add To Favorite">
                                     <i class="material-icons mat-icon-sm">favorite_border</i>
                                 </button>
-                                <button class="mdc-button" title="Add To Compare">
+                                <button class="mdc-button add-to-compare" title="Add To Compare">
                                     <i class="material-icons mat-icon-sm">compare_arrows</i>
                                 </button>
                             </div>
@@ -1302,7 +1302,7 @@
                                 <button class="mdc-button add-to-favorite" title="Add To Favorite">
                                     <i class="material-icons mat-icon-sm">favorite_border</i>
                                 </button>
-                                <button class="mdc-button" title="Add To Compare">
+                                <button class="mdc-button add-to-compare" title="Add To Compare">
                                     <i class="material-icons mat-icon-sm">compare_arrows</i>
                                 </button>
                             </div>
@@ -1415,7 +1415,7 @@
                                 <button class="mdc-button add-to-favorite" title="Add To Favorite">
                                     <i class="material-icons mat-icon-sm">favorite_border</i>
                                 </button>
-                                <button class="mdc-button" title="Add To Compare">
+                                <button class="mdc-button add-to-compare" title="Add To Compare">
                                     <i class="material-icons mat-icon-sm">compare_arrows</i>
                                 </button>
                             </div>
@@ -1522,7 +1522,7 @@
                                 <button class="mdc-button add-to-favorite" title="Add To Favorite">
                                     <i class="material-icons mat-icon-sm">favorite_border</i>
                                 </button>
-                                <button class="mdc-button" title="Add To Compare">
+                                <button class="mdc-button add-to-compare" title="Add To Compare">
                                     <i class="material-icons mat-icon-sm">compare_arrows</i>
                                 </button>
                             </div>
@@ -1600,54 +1600,21 @@
                                 <div class="mdc-card property-item grid-item column-4 full-width-page">
                                     <div class="thumbnail-section">
                                         <div class="row property-status">
-                                            <span class="blue">For rent</span>
+                                            <span class="green">For sale</span>
                                             <span class="orange">No fees</span>
                                         </div>
                                         <div class="property-image">
                                             <div class="swiper-container">
                                                 <div class="swiper-wrapper">
+                                                    <% listing.media.images.forEach(function(image, index) { %>
                                                     <div class="swiper-slide">
                                                         <img src="assets/images/others/transparent-bg.png"
                                                             alt="slide image"
-                                                            data-src="assets/images/props/office/1-medium.jpg"
+                                                            data-src="assets/images/props/office/<%= index + 1 %>-medium.jpg"
                                                             class="slide-item swiper-lazy">
                                                         <div class="swiper-lazy-preloader"></div>
                                                     </div>
-                                                    <div class="swiper-slide">
-                                                        <img src="assets/images/others/transparent-bg.png"
-                                                            alt="slide image"
-                                                            data-src="assets/images/props/office/2-medium.jpg"
-                                                            class="slide-item swiper-lazy">
-                                                        <div class="swiper-lazy-preloader"></div>
-                                                    </div>
-                                                    <div class="swiper-slide">
-                                                        <img src="assets/images/others/transparent-bg.png"
-                                                            alt="slide image"
-                                                            data-src="assets/images/props/office/3-medium.jpg"
-                                                            class="slide-item swiper-lazy">
-                                                        <div class="swiper-lazy-preloader"></div>
-                                                    </div>
-                                                    <div class="swiper-slide">
-                                                        <img src="assets/images/others/transparent-bg.png"
-                                                            alt="slide image"
-                                                            data-src="assets/images/props/office/4-medium.jpg"
-                                                            class="slide-item swiper-lazy">
-                                                        <div class="swiper-lazy-preloader"></div>
-                                                    </div>
-                                                    <div class="swiper-slide">
-                                                        <img src="assets/images/others/transparent-bg.png"
-                                                            alt="slide image"
-                                                            data-src="assets/images/props/office/5-medium.jpg"
-                                                            class="slide-item swiper-lazy">
-                                                        <div class="swiper-lazy-preloader"></div>
-                                                    </div>
-                                                    <div class="swiper-slide">
-                                                        <img src="assets/images/others/transparent-bg.png"
-                                                            alt="slide image"
-                                                            data-src="assets/images/props/office/6-medium.jpg"
-                                                            class="slide-item swiper-lazy">
-                                                        <div class="swiper-lazy-preloader"></div>
-                                                    </div>
+                                                    <% }); %>
                                                 </div>
                                                 <div class="swiper-pagination white"></div>
                                                 <button class="mdc-icon-button swiper-button-prev swipe-arrow"><i
@@ -1657,10 +1624,12 @@
                                             </div>
                                         </div>
                                         <div class="control-icons">
-                                            <button class="mdc-button add-to-favorite" title="Add To Favorite">
+                                            <button class="mdc-button add-to-favorite" data-value="<%= listing._id %>"
+                                                title="Add To Favorite">
                                                 <i class="material-icons mat-icon-sm">favorite_border</i>
                                             </button>
-                                            <button class="mdc-button" title="Add To Compare">
+                                            <button class="mdc-button add-to-compare" data-value="<%= listing._id %>"
+                                                title="Add To Compare">
                                                 <i class="material-icons mat-icon-sm">compare_arrows</i>
                                             </button>
                                         </div>
@@ -1668,14 +1637,16 @@
                                     <div class="property-content-wrapper">
                                         <div class="property-content">
                                             <div class="content">
-                                                <h1 class="title"><a href="#">Centrally located office</a></h1>
+                                                <h1 class="title"><a href="#"><%= listing.location.project %></a></h1>
                                                 <p class="row address flex-nowrap">
                                                     <i class="material-icons text-muted">location_on</i>
-                                                    <span>1052 W 91st St, Los Angeles, CA 90044, USA</span>
+                                                    <span>Sector
+                                                        <%= listing.location.sector + ", " + listing.location.place %></span>
                                                 </p>
                                                 <div class="row between-xs middle-xs">
                                                     <h3 class="primary-color price">
-                                                        <span>$ 6,500 /month</span>
+                                                        <span><%= new Intl.NumberFormat('en-IN', { style: 'currency', currency: 'INR', minimumFractionDigits: 0,  maximumFractionDigits: 0 }).format(listing.price) %>
+                                                        </span>
                                                     </h3>
                                                     <div class="row start-xs middle-xs ratings" title="29">
                                                         <i class="material-icons mat-icon-sm">star</i>
@@ -1695,19 +1666,26 @@
                                                     </div>
                                                 </div>
                                                 <div class="features mt-3">
-                                                    <p><span>Property size</span><span>1500 ft²</span></p>
-                                                    <p><span>Bedrooms</span><span>4</span></p>
-                                                    <p><span>Bathrooms</span><span>2</span></p>
-                                                    <p><span>Garages</span><span>2</span></p>
+                                                    <p><span>Property
+                                                            size</span><span><%= listing.propertyInfo.area.area %>
+                                                            ft²</span></p>
+                                                    <p><span>Bedrooms</span><span><%= listing.propertyInfo.bedrooms %></span>
+                                                    </p>
+                                                    <p><span>Bathrooms</span><span><%= listing.propertyInfo.bathrooms %></span>
+                                                    </p>
+                                                    <p><span>Garages</span><span><%= listing.propertyInfo.reservedParking %></span>
+                                                    </p>
                                                 </div>
                                             </div>
                                             <div class="grow"></div>
                                             <div class="actions row between-xs middle-xs">
                                                 <p class="row date mb-0">
                                                     <i class="material-icons text-muted">date_range</i>
-                                                    <span class="mx-2">12 September, 2013</span>
+                                                    <span class="mx-2"><%= moment(listing.createdAt).format("ll") %>
+                                                    </span>
                                                 </p>
-                                                <a href="javascript:void(0);" class="mdc-button mdc-button--outlined">
+                                                <a href="/listing/<%= listing._id %> "
+                                                    class="mdc-button mdc-button--outlined">
                                                     <span class="mdc-button__ripple"></span>
                                                     <span class="mdc-button__label">Details</span>
                                                 </a>
@@ -1774,7 +1752,7 @@
                                             <button class="mdc-button add-to-favorite" title="Add To Favorite">
                                                 <i class="material-icons mat-icon-sm">favorite_border</i>
                                             </button>
-                                            <button class="mdc-button" title="Add To Compare">
+                                            <button class="mdc-button add-to-compare" title="Add To Compare">
                                                 <i class="material-icons mat-icon-sm">compare_arrows</i>
                                             </button>
                                         </div>
@@ -1880,7 +1858,7 @@
                                             <button class="mdc-button add-to-favorite" title="Add To Favorite">
                                                 <i class="material-icons mat-icon-sm">favorite_border</i>
                                             </button>
-                                            <button class="mdc-button" title="Add To Compare">
+                                            <button class="mdc-button add-to-compare" title="Add To Compare">
                                                 <i class="material-icons mat-icon-sm">compare_arrows</i>
                                             </button>
                                         </div>
@@ -1986,7 +1964,7 @@
                                             <button class="mdc-button add-to-favorite" title="Add To Favorite">
                                                 <i class="material-icons mat-icon-sm">favorite_border</i>
                                             </button>
-                                            <button class="mdc-button" title="Add To Compare">
+                                            <button class="mdc-button add-to-compare" title="Add To Compare">
                                                 <i class="material-icons mat-icon-sm">compare_arrows</i>
                                             </button>
                                         </div>
@@ -2099,7 +2077,7 @@
                                             <button class="mdc-button add-to-favorite" title="Add To Favorite">
                                                 <i class="material-icons mat-icon-sm">favorite_border</i>
                                             </button>
-                                            <button class="mdc-button" title="Add To Compare">
+                                            <button class="mdc-button add-to-compare" title="Add To Compare">
                                                 <i class="material-icons mat-icon-sm">compare_arrows</i>
                                             </button>
                                         </div>
@@ -2226,7 +2204,7 @@
                             <button class="mdc-button add-to-favorite" title="Add To Favorite">
                                 <i class="material-icons mat-icon-sm">favorite_border</i>
                             </button>
-                            <button class="mdc-button" title="Add To Compare">
+                            <button class="mdc-button add-to-compare" title="Add To Compare">
                                 <i class="material-icons mat-icon-sm">compare_arrows</i>
                             </button>
                         </div>

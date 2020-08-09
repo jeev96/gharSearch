@@ -595,13 +595,110 @@ jQuery(document).ready(function ($) {
         $('.time').text(formatAMPM(new Date));
     }, 1000);
 
+    var conflict_snackbar = document.getElementById('conflict-snackbar');
+    const add_conflict_snackbar = mdc.snackbar.MDCSnackbar.attachTo(conflict_snackbar);
+
+    var error_snackbar = document.getElementById('error-snackbar');
+    const add_error_snackbar = mdc.snackbar.MDCSnackbar.attachTo(error_snackbar);
+
+
     var favorites_snackbar = document.getElementById('favorites-snackbar');
     if (favorites_snackbar) {
         const add_favorites_snackbar = mdc.snackbar.MDCSnackbar.attachTo(favorites_snackbar);
         $('.add-to-favorite').on('click', function () {
-            add_favorites_snackbar.open();
+            $.post('/listing/favourite', { id: $(this).data("value") }, function (data, status, xhr) {
+                console.log('Request sent!');
+            })
+                .done(function () {
+                    console.log('Request done!');
+                    let count = Number($('#favourite-header').text());
+                    $('#favourite-header').text(count + 1);
+                    add_favorites_snackbar.open();
+                })
+                .fail(function (jqxhr, settings, ex) {
+                    console.log('failed, ' + ex);
+                    if (jqxhr.status === 409)
+                        add_conflict_snackbar.open();
+                    else
+                        add_error_snackbar.open();
+                });
         });
     };
+
+    $('.favourite-remove').on('click', function () {
+        let button = $(this);
+        $.ajax({
+            url: '/listing/favourite/' + $(this).data("value"),
+            type: 'DELETE',
+            success: function (result) {
+                let count = Number($('#favourite-count').text());
+                $('#favourite-count').text(count - 1);
+                $('#favourite-header').text(count - 1);
+                button.parent().parent().remove();
+            }
+        });
+    });
+    $('#favourite-clear').on('click', function () {
+        $.ajax({
+            url: '/listing/favourite',
+            type: 'DELETE',
+            success: function (result) {
+                $('#favourite-count').text("0");
+                $('#favourite-header').text("0");
+                $('#favourite-list').empty();
+            }
+        });
+
+    });
+
+    var compare_snackbar = document.getElementById('compare-snackbar');
+    if (compare_snackbar) {
+        const add_compare_snackbar = mdc.snackbar.MDCSnackbar.attachTo(compare_snackbar);
+        $('.add-to-compare').on('click', function () {
+            $.post('/listing/compare', { id: $(this).data("value") }, function (data, status, xhr) {
+                console.log('Request sent!');
+            })
+                .done(function () {
+                    console.log('Request done!');
+                    let count = Number($('#compare-header').text());
+                    $('#compare-header').text(count + 1);
+                    add_compare_snackbar.open();
+                })
+                .fail(function (jqxhr, settings, ex) {
+                    console.log('failed, ' + ex);
+                    if (jqxhr.status === 409)
+                        add_conflict_snackbar.open();
+                    else
+                        add_error_snackbar.open();
+                });
+        });
+    };
+
+    $('.compare-remove').on('click', function () {
+        let button = $(this);
+        $.ajax({
+            url: '/listing/compare/' + $(this).data("value"),
+            type: 'DELETE',
+            success: function (result) {
+                let count = Number($('#compare-count').text());
+                $('#compare-count').text(count - 1);
+                $('#compare-header').text(count - 1);
+                button.parent().parent().parent().remove();
+            }
+        });
+    });
+    $('#compare-clear').on('click', function () {
+        $.ajax({
+            url: '/listing/compare',
+            type: 'DELETE',
+            success: function (result) {
+                $('#compare-count').text("0");
+                $('#compare-header').text("0");
+                $('#compare-list').empty();
+            }
+        });
+
+    });
 
 });
 

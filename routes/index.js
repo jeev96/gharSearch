@@ -29,4 +29,5 @@ router.get("/about", function (req, res) {
     res.render("index/about", { page: "about" });
 });
 
+
 module.exports = router;

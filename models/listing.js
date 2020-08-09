@@ -17,6 +17,16 @@ var listingSchema = new mongoose.Schema({
         default: Date.now,
         required: true
     },
+    listingInfo: {
+        title: {
+            type: String,
+            required: true
+        },
+        tags: {
+            type: [String],
+            default: ["New"]
+        },
+    },
     propertyType: {
         type: String,
         default: "FLAT"
@@ -48,17 +58,30 @@ var listingSchema = new mongoose.Schema({
             type: String
         },
     },
-    propertyInfo: {
+    media: {
         images: {
             type: [String],
             default: ["https://d27p8o2qkwv41j.cloudfront.net/wp-content/uploads/2016/07/shutterstock_262923179-e1500871070126.jpg"]
+        },
+        documents: {
+            floorPlans: {
+                type: [String]
+            }
+        }
+    },
+    propertyInfo: {
+        ageOfProperty: {
+            type: Number
+        },
+        amenities: {
+            type: [String]
         },
         area: {
             area: Number,
             unit: {
                 type: String,
-                enum: ["SQFT", "SQ-YARDS", "ACRE"],
-                default: "SQFT"
+                enum: ["ft²", "yard²", "acre"],
+                default: "ft²"
             }
         },
         bhk: {
@@ -73,22 +96,6 @@ var listingSchema = new mongoose.Schema({
         balconies: {
             type: Number
         },
-        otherRooms: {
-            type: String
-        },
-        reservedParking: {
-            type: Number
-        },
-        ageOfProperty: {
-            type: Number
-        },
-        amenities: {
-            type: [String]
-        },
-        waterSource: {
-            type: String,
-            default: "MUNICIPAL-CORPORATION"
-        },
         facing: {
             type: String,
             enum: ["E", "W", "N", "S", "NE", "NW", "SE", "SW"],
@@ -97,6 +104,16 @@ var listingSchema = new mongoose.Schema({
         flooring: {
             type: String,
             default: "VETRIFIED"
+        },
+        otherRooms: {
+            type: String
+        },
+        reservedParking: {
+            type: Number
+        },
+        waterSource: {
+            type: String,
+            default: "MUNICIPAL-CORPORATION"
         },
     },
     ownership: {
