@@ -58,7 +58,7 @@
                                                 <div class="details py-3">
                                                     <div class="item">
                                                         <span>Property Type:</span>
-                                                        <span><%= listing.propertyType %></span>
+                                                        <span><%= listing.propertyType.subtype, listing.propertyType.type %></span>
                                                     </div>
                                                     <div class="item">
                                                         <span>Property Status:</span>
@@ -129,7 +129,7 @@
                                                     </div>
                                                     <div class="item">
                                                         <span>Published:</span>
-                                                        <span>12 September, 2013</span>
+                                                        <span><%= moment(listing.createdAt).format("ll") %> </span>
                                                     </div>
                                                 </div>
                                                 <p class="uppercase text-center fw-500 mb-2">description</p>

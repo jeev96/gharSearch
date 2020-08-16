@@ -42,8 +42,6 @@ app.use(bodyParser.json()); app.set("view engine", "ejs");
 app.use(express.static(__dirname + "/public"));
 app.use(methodOverride('_method'));
 app.use(cookieParser('secret'));
-//require moment
-app.locals.moment = require('moment');
 
 // PASSPORT CONFIGURATION
 app.use(session({
@@ -62,6 +60,7 @@ passport.deserializeUser(User.deserializeUser());
 
 app.use(function (req, res, next) {
     res.locals.currentUser = req.user;
+    app.locals.moment = require('moment');
     res.locals.compare = req.session.compare || [];
     res.locals.favourite = req.session.favourite || [];
     res.locals.success = req.flash('success');

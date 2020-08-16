@@ -9,12 +9,21 @@ let { isLoggedIn, isNotLoggedIn, isAdmin, isPartialSignedUp } = middleware; // d
 
 // root route
 router.get("/", function (req, res) {
-    let featuredListings = [];
     Listing.find({}, function (err, allListings) {
         if (err) {
             console.log(err);
         } else {
-            res.render("index/home", { featuredListings: allListings, page: "home" });
+            let featuredListings = allListings.filter((listing) => {
+                if(listing.listingInfo && listing.listingInfo.tags) {
+                    if (listing.listingInfo.tags.indexOf("FEATURED") > -1) {
+                        return true;
+                    } else {
+                        return false;
+                    }
+                }
+                return false;
+            })
+            res.render("index/home", { listings: allListings, featuredListings: featuredListings, page: "home" });
         }
     });
 });

@@ -134,7 +134,11 @@
                         <div class="row details">
                             <div class="row col-xs-12 col-sm-6 item">
                                 <span>Property Type:</span>
-                                <span><%= listing.propertyType %></span>
+                                <span><%= listing.propertyType.type %></span>
+                            </div>
+                            <div class="row col-xs-12 col-sm-6 item">
+                                <span>Property Subtype:</span>
+                                <span><%= listing.propertyType.subtype %></span>
                             </div>
                             <div class="row col-xs-12 col-sm-6 item">
                                 <span>Property Status:</span>
@@ -148,6 +152,13 @@
                                 </div>
                             </div>
                             <div class="row col-xs-12 col-sm-6 item">
+                                <span>Neighborhood:</span>
+                                <div class="row list">
+                                    <span><%= listing.location.project %></span>
+                                    <span class="last"><%= listing.location.sector %></span>
+                                </div>
+                            </div>
+                            <div class="row col-xs-12 col-sm-6 item">
                                 <span>City:</span>
                                 <span><%= listing.location.place %></span>
                             </div>
@@ -155,13 +166,7 @@
                                 <span>Zip Code:</span>
                                 <span>60604</span>
                             </div> -->
-                            <div class="row col-xs-12 col-sm-6 item">
-                                <span>Neighborhood:</span>
-                                <div class="row list">
-                                    <span><%= listing.location.project %></span>
-                                    <span class="last"><%= listing.location.sector %></span>
-                                </div>
-                            </div>
+
                             <!-- <div class="row col-xs-12 col-sm-6 item">
                                 <span>Street:</span>
                                 <div class="row list">

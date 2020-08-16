@@ -1,4 +1,10 @@
-jQuery(document).ready(function ($) {
+let formData;
+
+jQuery(document).ready(function () {
+    onPageLoad()
+});
+
+function onPageLoad() {
     "use strict";
 
     const selector = '.mdc-button, .mdc-fab, .mdc-chip';
@@ -366,6 +372,57 @@ jQuery(document).ready(function ($) {
         return mdc.checkbox.MDCCheckbox.attachTo(el);
     });
 
+    $(".mdc-chip span i").on("click", function () {
+        tagSearch($(this).data("value"));
+    });
+
+    $("#filters").submit(function (event) {
+        event.preventDefault();
+        const searchString = getFilterFormData();
+        formData = searchString;
+        searchListings(searchString);
+    });
+
+    function tagSearch(key) {
+        let searchString = formData;
+        let removeValue = key;
+
+        for (let i = 0; i < searchString.length; i++) {
+            let element = searchString[i];
+            if (element.name === removeValue) {
+                searchString.splice(i, 1);
+                break;
+            }
+        }
+        searchListings(searchString);
+    }
+
+    function getFilterFormData() {
+        var searchString = $("#filters").serializeArray();
+        let inputData = $("#filters li.mdc-list-item--selected");
+        for (let i = 0; i < inputData.length; i++) {
+            searchString.push({
+                name: $(inputData[i]).parent().attr("name"),
+                value: $(inputData[i]).data("value")
+            });
+        }
+        return searchString;
+    }
+
+    function searchListings(searchString) {
+        $.post("/listing/search", searchString, function (data, status) {
+            let sortBar = $("#home-sort");
+            let loadButton = $("#home-more-button")
+            $("#home-listings").empty();
+            $("#home-listings").append($(data.tagsHtml));
+            $("#home-listings").append($(sortBar));
+            $("#home-listings").append($(data.listingsHtml));
+            $("#home-listings").append($(loadButton));
+            reInitHomeListings();
+            return;
+        });
+    }
+
     [].slice.call(document.querySelectorAll('.mdc-chip-set')).forEach(function (el) {
         mdc.chips.MDCChipSet.attachTo(el);
     });
@@ -399,9 +456,12 @@ jQuery(document).ready(function ($) {
     };
 
     $('.view-type').on("click", function () {
-        var viewType = this.getAttribute('data-view-type');
-        var colSize = this.getAttribute('data-col');
-        var fullWidthPage = this.getAttribute('data-full-width-page');
+        setViewModes(this);
+    });
+    function setViewModes(views) {
+        var viewType = views.getAttribute('data-view-type');
+        var colSize = views.getAttribute('data-col');
+        var fullWidthPage = views.getAttribute('data-full-width-page');
         var col = '';
         switch (colSize) {
             case '1':
@@ -433,7 +493,47 @@ jQuery(document).ready(function ($) {
                 }
             }
         }
-    });
+    }
+
+    function reInitHomeListings() {
+        property_item_carousel = null;
+        property_item_carousel = new Swiper('.property-item .property-image>.swiper-container', {
+            observer: true,
+            observeParents: true,
+            slidesPerView: 1,
+            spaceBetween: 0,
+            keyboard: true,
+            navigation: {
+                nextEl: '.swiper-button-next',
+                prevEl: '.swiper-button-prev',
+            },
+            pagination: {
+                el: '.swiper-pagination',
+                type: 'bullets',
+                clickable: true
+            },
+            grabCursor: true,
+            loop: true,
+            preloadImages: false,
+            lazy: true,
+            speed: 500,
+            effect: "slide",
+            nested: true
+        })
+
+        let chips = document.querySelectorAll('.mdc-chip-set');
+        chips.forEach(function (el) {
+            mdc.chips.MDCChipSet.attachTo(el);
+        });
+
+        $(".mdc-chip span i").on("click", function () {
+            tagSearch($(this).data("value"));
+        });
+
+        $('.view-type').on("click", function () {
+            setViewModes(this);
+        });
+    }
 
     $(".subscribe-input").on("focus", function () {
         $(this).parent().addClass("active");
@@ -697,10 +797,8 @@ jQuery(document).ready(function ($) {
                 $('#compare-list').empty();
             }
         });
-
     });
-
-});
+}
 
 function formatAMPM(date) {
     var hours = date.getHours();

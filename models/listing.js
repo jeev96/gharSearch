@@ -6,11 +6,11 @@ var listingSchema = new mongoose.Schema({
             type: mongoose.Schema.Types.ObjectId,
             ref: "User",
             required: true
-         },
+        },
         username: {
             type: String,
             required: true
-        } 
+        }
     },
     createdAt: {
         type: Date,
@@ -24,12 +24,18 @@ var listingSchema = new mongoose.Schema({
         },
         tags: {
             type: [String],
-            default: ["New"]
+            default: ["NEW"]
         },
     },
     propertyType: {
-        type: String,
-        default: "FLAT"
+        type: {
+            type: String,
+            default: "RESIDENTIAL"
+        },
+        subtype: {
+            type: String,
+            default: "FLAT"
+        }
     },
     location: {
         place: {
@@ -70,7 +76,7 @@ var listingSchema = new mongoose.Schema({
         }
     },
     propertyInfo: {
-        ageOfProperty: {
+        builtYear: {
             type: Number
         },
         amenities: {
@@ -100,7 +106,7 @@ var listingSchema = new mongoose.Schema({
             type: String,
             enum: ["E", "W", "N", "S", "NE", "NW", "SE", "SW"],
             default: "E"
-        }, 
+        },
         flooring: {
             type: String,
             default: "VETRIFIED"
@@ -126,7 +132,7 @@ var listingSchema = new mongoose.Schema({
     },
     description: {
         type: String
-    }, 
+    },
     contactInfo: {
         name: String,
         firmName: String,
