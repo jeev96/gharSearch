@@ -613,7 +613,8 @@
                         <div class="mdc-chip bg-warn">
                             <div class="mdc-chip__ripple"></div>
                             <span>
-                                <span role="button" tabindex="0" class="mdc-chip__text uppercase"><%= listings.length %> Found</span>
+                                <span role="button" tabindex="0" class="mdc-chip__text uppercase"><%= listingCount %>
+                                    Found</span>
                             </span>
                         </div>
                     </div>
@@ -629,22 +630,19 @@
                             <div class="mdc-menu mdc-menu-surface">
                                 <ul class="mdc-list" role="menu" aria-hidden="true" aria-orientation="vertical"
                                     tabindex="-1">
-                                    <li class="mdc-list-item" role="menuitem">
+                                    <li data-value="0" class="mdc-list-item" role="menuitem">
                                         <span class="mdc-list-item__text">Sort by Default</span>
                                     </li>
-                                    <li class="mdc-list-item" role="menuitem">
+                                    <li data-value="1" class="mdc-list-item" role="menuitem">
                                         <span class="mdc-list-item__text">Newest</span>
                                     </li>
-                                    <li class="mdc-list-item" role="menuitem">
+                                    <li data-value="2" class="mdc-list-item" role="menuitem">
                                         <span class="mdc-list-item__text">Oldest</span>
                                     </li>
-                                    <li class="mdc-list-item" role="menuitem">
-                                        <span class="mdc-list-item__text">Popular</span>
-                                    </li>
-                                    <li class="mdc-list-item" role="menuitem">
+                                    <li data-value="3" class="mdc-list-item" role="menuitem">
                                         <span class="mdc-list-item__text">Price (Low to High)</span>
                                     </li>
-                                    <li class="mdc-list-item" role="menuitem">
+                                    <li data-value="4" class="mdc-list-item" role="menuitem">
                                         <span class="mdc-list-item__text">Price (High to Low)</span>
                                     </li>
                                 </ul>
@@ -654,26 +652,27 @@
                             <div class="mdc-menu-surface--anchor">
                                 <button class="mdc-button mdc-ripple-surface text-muted">
                                     <span class="mdc-button__ripple"></span>
-                                    <span class="mdc-button__label">Show<span class="mx-2 mutable">8</span></span>
+                                    <span class="mdc-button__label">Show<span id="selected-limit"
+                                            class="mx-2 mutable">8</span></span>
                                     <i class="material-icons mdc-button__icon m-0">arrow_drop_down</i>
                                 </button>
                                 <div class="mdc-menu mdc-menu-surface">
                                     <ul class="mdc-list" role="menu" aria-hidden="true" aria-orientation="vertical"
                                         tabindex="-1">
-                                        <li class="mdc-list-item" role="menuitem">
+                                        <li data-limit="4" class="mdc-list-item" role="menuitem">
+                                            <span class="mdc-list-item__text">4</span>
+                                        </li>
+                                        <li data-limit="8" class="mdc-list-item" role="menuitem">
                                             <span class="mdc-list-item__text">8</span>
                                         </li>
-                                        <li class="mdc-list-item" role="menuitem">
+                                        <li data-limit="12" class="mdc-list-item" role="menuitem">
                                             <span class="mdc-list-item__text">12</span>
                                         </li>
-                                        <li class="mdc-list-item" role="menuitem">
+                                        <li data-limit="16" class="mdc-list-item" role="menuitem">
                                             <span class="mdc-list-item__text">16</span>
                                         </li>
-                                        <li class="mdc-list-item" role="menuitem">
+                                        <li data-limit="24" class="mdc-list-item" role="menuitem">
                                             <span class="mdc-list-item__text">24</span>
-                                        </li>
-                                        <li class="mdc-list-item" role="menuitem">
-                                            <span class="mdc-list-item__text">36</span>
                                         </li>
                                     </ul>
                                 </div>
@@ -760,8 +759,12 @@
                         <div class="property-content-wrapper">
                             <div class="property-content">
                                 <div class="content">
-                                    <h1 class="title"><a href="/listing/<%= listing._id %>"><%= listing.listingInfo && listing.listingInfo.title ?
-                                        listing.listingInfo.title : listing.location.project %></a></h1>
+                                    <h1 class="title">
+                                        <a href="/listing/<%= listing._id %>">
+                                            <%= listing.listingInfo && listing.listingInfo.title ?
+                                        listing.listingInfo.title : listing.location.project %>
+                                        </a>
+                                    </h1>
                                     <p class="row address flex-nowrap">
                                         <i class="material-icons text-muted">location_on</i>
                                         <span><%= listing.location.sector + ", " + listing.location.place %></span>
@@ -787,10 +790,12 @@
                                         </div>
                                     </div>
                                     <div class="features mt-3">
-                                        <p><span>Property size</span><span><%= listing.propertyInfo.area.area %> ft²</span></p>
+                                        <p><span>Property size</span><span><%= listing.propertyInfo.area.area %>
+                                                ft²</span></p>
                                         <p><span>Bedrooms</span><span><%= listing.propertyInfo.bedrooms %></span></p>
                                         <p><span>Bathrooms</span><span><%= listing.propertyInfo.bathrooms %></span></p>
-                                        <p><span>Garages</span><span><%= listing.propertyInfo.reservedParking %></span></p>
+                                        <p><span>Garages</span><span><%= listing.propertyInfo.reservedParking %></span>
+                                        </p>
                                     </div>
                                 </div>
                                 <div class="grow"></div>
@@ -809,320 +814,14 @@
                     </div>
                 </div>
                 <% }) %>
-                <div class="row item col-xs-12 col-sm-6 col-md-4 col-lg-3 col-xl-3">
-                    <div class="mdc-card property-item grid-item column-4 full-width-page">
-                        <div class="thumbnail-section">
-                            <div class="row property-status">
-                                <span class="green">For Sale</span>
-                            </div>
-                            <div class="property-image">
-                                <div class="swiper-container">
-                                    <div class="swiper-wrapper">
-                                        <div class="swiper-slide">
-                                            <img src="assets/images/others/transparent-bg.png" alt="slide image"
-                                                data-src="assets/images/props/flat-1/1-medium.jpg"
-                                                class="slide-item swiper-lazy">
-                                            <div class="swiper-lazy-preloader"></div>
-                                        </div>
-                                        <div class="swiper-slide">
-                                            <img src="assets/images/others/transparent-bg.png" alt="slide image"
-                                                data-src="assets/images/props/flat-1/2-medium.jpg"
-                                                class="slide-item swiper-lazy">
-                                            <div class="swiper-lazy-preloader"></div>
-                                        </div>
-                                        <div class="swiper-slide">
-                                            <img src="assets/images/others/transparent-bg.png" alt="slide image"
-                                                data-src="assets/images/props/flat-1/3-medium.jpg"
-                                                class="slide-item swiper-lazy">
-                                            <div class="swiper-lazy-preloader"></div>
-                                        </div>
-                                        <div class="swiper-slide">
-                                            <img src="assets/images/others/transparent-bg.png" alt="slide image"
-                                                data-src="assets/images/props/flat-1/4-medium.jpg"
-                                                class="slide-item swiper-lazy">
-                                            <div class="swiper-lazy-preloader"></div>
-                                        </div>
-                                    </div>
-                                    <div class="swiper-pagination white"></div>
-                                    <button class="mdc-icon-button swiper-button-prev swipe-arrow"><i
-                                            class="material-icons mat-icon-lg">keyboard_arrow_left</i></button>
-                                    <button class="mdc-icon-button swiper-button-next swipe-arrow"><i
-                                            class="material-icons mat-icon-lg">keyboard_arrow_right</i></button>
-                                </div>
-                            </div>
-                            <div class="control-icons">
-                                <button class="mdc-button add-to-favorite" title="Add To Favorite">
-                                    <i class="material-icons mat-icon-sm">favorite_border</i>
-                                </button>
-                                <button class="mdc-button add-to-compare" title="Add To Compare">
-                                    <i class="material-icons mat-icon-sm">compare_arrows</i>
-                                </button>
-                            </div>
-                        </div>
-                        <div class="property-content-wrapper">
-                            <div class="property-content">
-                                <div class="content">
-                                    <h1 class="title"><a href="#">Modern and quirky flat</a></h1>
-                                    <p class="row address flex-nowrap">
-                                        <i class="material-icons text-muted">location_on</i>
-                                        <span>611 W 180th St, New York, NY 10033, USA</span>
-                                    </p>
-                                    <div class="row between-xs middle-xs">
-                                        <h3 class="primary-color price">
-                                            <span>$ 1,300,000</span>
-                                        </h3>
-                                        <div class="row start-xs middle-xs ratings" title="29">
-                                            <i class="material-icons mat-icon-sm">star</i>
-                                            <i class="material-icons mat-icon-sm">star</i>
-                                            <i class="material-icons mat-icon-sm">star</i>
-                                            <i class="material-icons mat-icon-sm">star</i>
-                                            <i class="material-icons mat-icon-sm">star_half</i>
-                                        </div>
-                                    </div>
-                                    <div class="d-none d-md-flex d-lg-flex d-xl-flex">
-                                        <div class="description mt-3">
-                                            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quaerat
-                                                modi dignissimos blanditiis accusamus, magni provident omnis
-                                                perferendis laudantium illo recusandae ab molestiae repudiandae cum
-                                                obcaecati nulla adipisci fuga culpa repellat!</p>
-                                        </div>
-                                    </div>
-                                    <div class="features mt-3">
-                                        <p><span>Property size</span><span>2380 ft²</span></p>
-                                        <p><span>Bedrooms</span><span>2</span></p>
-                                        <p><span>Bathrooms</span><span>2</span></p>
-                                        <p><span>Garages</span><span>1</span></p>
-                                    </div>
-                                </div>
-                                <div class="grow"></div>
-                                <div class="actions row between-xs middle-xs">
-                                    <p class="row date mb-0">
-                                        <i class="material-icons text-muted">date_range</i>
-                                        <span class="mx-2">12 August, 2012</span>
-                                    </p>
-                                    <a href="javascript:void(0);" class="mdc-button mdc-button--outlined">
-                                        <span class="mdc-button__ripple"></span>
-                                        <span class="mdc-button__label">Details</span>
-                                    </a>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="row item col-xs-12 col-sm-6 col-md-4 col-lg-3 col-xl-3">
-                    <div class="mdc-card property-item grid-item column-4 full-width-page">
-                        <div class="thumbnail-section">
-                            <div class="row property-status">
-                                <span class="dark">Sold</span>
-                                <span class="green">For Sale</span>
-                            </div>
-                            <div class="property-image">
-                                <div class="swiper-container">
-                                    <div class="swiper-wrapper">
-                                        <div class="swiper-slide">
-                                            <img src="assets/images/others/transparent-bg.png" alt="slide image"
-                                                data-src="assets/images/props/house-3/1-medium.jpg"
-                                                class="slide-item swiper-lazy">
-                                            <div class="swiper-lazy-preloader"></div>
-                                        </div>
-                                        <div class="swiper-slide">
-                                            <img src="assets/images/others/transparent-bg.png" alt="slide image"
-                                                data-src="assets/images/props/house-3/2-medium.jpg"
-                                                class="slide-item swiper-lazy">
-                                            <div class="swiper-lazy-preloader"></div>
-                                        </div>
-                                        <div class="swiper-slide">
-                                            <img src="assets/images/others/transparent-bg.png" alt="slide image"
-                                                data-src="assets/images/props/house-3/3-medium.jpg"
-                                                class="slide-item swiper-lazy">
-                                            <div class="swiper-lazy-preloader"></div>
-                                        </div>
-                                        <div class="swiper-slide">
-                                            <img src="assets/images/others/transparent-bg.png" alt="slide image"
-                                                data-src="assets/images/props/house-3/4-medium.jpg"
-                                                class="slide-item swiper-lazy">
-                                            <div class="swiper-lazy-preloader"></div>
-                                        </div>
-                                    </div>
-                                    <div class="swiper-pagination white"></div>
-                                    <button class="mdc-icon-button swiper-button-prev swipe-arrow"><i
-                                            class="material-icons mat-icon-lg">keyboard_arrow_left</i></button>
-                                    <button class="mdc-icon-button swiper-button-next swipe-arrow"><i
-                                            class="material-icons mat-icon-lg">keyboard_arrow_right</i></button>
-                                </div>
-                            </div>
-                            <div class="control-icons">
-                                <button class="mdc-button add-to-favorite" title="Add To Favorite">
-                                    <i class="material-icons mat-icon-sm">favorite_border</i>
-                                </button>
-                                <button class="mdc-button add-to-compare" title="Add To Compare">
-                                    <i class="material-icons mat-icon-sm">compare_arrows</i>
-                                </button>
-                            </div>
-                        </div>
-                        <div class="property-content-wrapper">
-                            <div class="property-content">
-                                <div class="content">
-                                    <h1 class="title"><a href="#">House with a pool</a></h1>
-                                    <p class="row address flex-nowrap">
-                                        <i class="material-icons text-muted">location_on</i>
-                                        <span>5921 17th Ave S, Seattle, WA 98108, USA</span>
-                                    </p>
-                                    <div class="row between-xs middle-xs">
-                                        <h3 class="primary-color price">
-                                            <span>$ 4,500,000</span>
-                                        </h3>
-                                        <div class="row start-xs middle-xs ratings" title="29">
-                                            <i class="material-icons mat-icon-sm">star</i>
-                                            <i class="material-icons mat-icon-sm">star</i>
-                                            <i class="material-icons mat-icon-sm">star</i>
-                                            <i class="material-icons mat-icon-sm">star</i>
-                                            <i class="material-icons mat-icon-sm">star_border</i>
-                                        </div>
-                                    </div>
-                                    <div class="d-none d-md-flex d-lg-flex d-xl-flex">
-                                        <div class="description mt-3">
-                                            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quaerat
-                                                modi dignissimos blanditiis accusamus, magni provident omnis
-                                                perferendis laudantium illo recusandae ab molestiae repudiandae cum
-                                                obcaecati nulla adipisci fuga culpa repellat!</p>
-                                        </div>
-                                    </div>
-                                    <div class="features mt-3">
-                                        <p><span>Property size</span><span>2200 ft²</span></p>
-                                        <p><span>Bedrooms</span><span>3</span></p>
-                                        <p><span>Bathrooms</span><span>2</span></p>
-                                        <p><span>Garages</span><span>1</span></p>
-                                    </div>
-                                </div>
-                                <div class="grow"></div>
-                                <div class="actions row between-xs middle-xs">
-                                    <p class="row date mb-0">
-                                        <i class="material-icons text-muted">date_range</i>
-                                        <span class="mx-2">20 November, 2017</span>
-                                    </p>
-                                    <a href="javascript:void(0);" class="mdc-button mdc-button--outlined">
-                                        <span class="mdc-button__ripple"></span>
-                                        <span class="mdc-button__label">Details</span>
-                                    </a>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="row item col-xs-12 col-sm-6 col-md-4 col-lg-3 col-xl-3">
-                    <div class="mdc-card property-item grid-item column-4 full-width-page">
-                        <div class="thumbnail-section">
-                            <div class="row property-status">
-                                <span class="blue">For Rent</span>
-                                <span class="orange">No Fees</span>
-                            </div>
-                            <div class="property-image">
-                                <div class="swiper-container">
-                                    <div class="swiper-wrapper">
-                                        <div class="swiper-slide">
-                                            <img src="assets/images/others/transparent-bg.png" alt="slide image"
-                                                data-src="assets/images/props/apartment/1-medium.jpg"
-                                                class="slide-item swiper-lazy">
-                                            <div class="swiper-lazy-preloader"></div>
-                                        </div>
-                                        <div class="swiper-slide">
-                                            <img src="assets/images/others/transparent-bg.png" alt="slide image"
-                                                data-src="assets/images/props/apartment/2-medium.jpg"
-                                                class="slide-item swiper-lazy">
-                                            <div class="swiper-lazy-preloader"></div>
-                                        </div>
-                                        <div class="swiper-slide">
-                                            <img src="assets/images/others/transparent-bg.png" alt="slide image"
-                                                data-src="assets/images/props/apartment/3-medium.jpg"
-                                                class="slide-item swiper-lazy">
-                                            <div class="swiper-lazy-preloader"></div>
-                                        </div>
-                                        <div class="swiper-slide">
-                                            <img src="assets/images/others/transparent-bg.png" alt="slide image"
-                                                data-src="assets/images/props/apartment/4-medium.jpg"
-                                                class="slide-item swiper-lazy">
-                                            <div class="swiper-lazy-preloader"></div>
-                                        </div>
-                                        <div class="swiper-slide">
-                                            <img src="assets/images/others/transparent-bg.png" alt="slide image"
-                                                data-src="assets/images/props/apartment/5-medium.jpg"
-                                                class="slide-item swiper-lazy">
-                                            <div class="swiper-lazy-preloader"></div>
-                                        </div>
-                                    </div>
-                                    <div class="swiper-pagination white"></div>
-                                    <button class="mdc-icon-button swiper-button-prev swipe-arrow"><i
-                                            class="material-icons mat-icon-lg">keyboard_arrow_left</i></button>
-                                    <button class="mdc-icon-button swiper-button-next swipe-arrow"><i
-                                            class="material-icons mat-icon-lg">keyboard_arrow_right</i></button>
-                                </div>
-                            </div>
-                            <div class="control-icons">
-                                <button class="mdc-button add-to-favorite" title="Add To Favorite">
-                                    <i class="material-icons mat-icon-sm">favorite_border</i>
-                                </button>
-                                <button class="mdc-button add-to-compare" title="Add To Compare">
-                                    <i class="material-icons mat-icon-sm">compare_arrows</i>
-                                </button>
-                            </div>
-                        </div>
-                        <div class="property-content-wrapper">
-                            <div class="property-content">
-                                <div class="content">
-                                    <h1 class="title"><a href="#">Centrally located apartment</a></h1>
-                                    <p class="row address flex-nowrap">
-                                        <i class="material-icons text-muted">location_on</i>
-                                        <span>1627 Vine St, Los Angeles, CA 90028, USA</span>
-                                    </p>
-                                    <div class="row between-xs middle-xs">
-                                        <h3 class="primary-color price">
-                                            <span>$ 5,600 /month</span>
-                                        </h3>
-                                        <div class="row start-xs middle-xs ratings" title="29">
-                                            <i class="material-icons mat-icon-sm">star</i>
-                                            <i class="material-icons mat-icon-sm">star</i>
-                                            <i class="material-icons mat-icon-sm">star</i>
-                                            <i class="material-icons mat-icon-sm">star</i>
-                                            <i class="material-icons mat-icon-sm">star_half</i>
-                                        </div>
-                                    </div>
-                                    <div class="d-none d-md-flex d-lg-flex d-xl-flex">
-                                        <div class="description mt-3">
-                                            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quaerat
-                                                modi dignissimos blanditiis accusamus, magni provident omnis
-                                                perferendis laudantium illo recusandae ab molestiae repudiandae cum
-                                                obcaecati nulla adipisci fuga culpa repellat!</p>
-                                        </div>
-                                    </div>
-                                    <div class="features mt-3">
-                                        <p><span>Property size</span><span>1600 ft²</span></p>
-                                        <p><span>Bedrooms</span><span>2</span></p>
-                                        <p><span>Bathrooms</span><span>1</span></p>
-                                        <p><span>Garages</span><span>1</span></p>
-                                    </div>
-                                </div>
-                                <div class="grow"></div>
-                                <div class="actions row between-xs middle-xs">
-                                    <p class="row date mb-0">
-                                        <i class="material-icons text-muted">date_range</i>
-                                        <span class="mx-2">29 March, 2016</span>
-                                    </p>
-                                    <a href="javascript:void(0);" class="mdc-button mdc-button--outlined">
-                                        <span class="mdc-button__ripple"></span>
-                                        <span class="mdc-button__label">Details</span>
-                                    </a>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div id="home-more-button" class="row center-xs middle-xs p-2 mt-2 w-100">
-                    <a href="javascript:alert('hi');"  class="mdc-button mdc-button--raised">
+                <% if(listingCount > 8 ) { %>
+                <div id="home-more-button" data-value="2" class="row center-xs middle-xs p-2 mt-2 w-100">
+                    <a class="mdc-button mdc-button--raised">
                         <span class="mdc-button__ripple"></span>
                         <span class="mdc-button__label">load more</span>
                     </a>
                 </div>
+                <% } %>
             </div>
         </div>
     </div>

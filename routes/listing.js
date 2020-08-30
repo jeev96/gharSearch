@@ -1,14 +1,9 @@
 let express = require("express");
 let router = express.Router();
-let ejs = require("ejs");
 let moment = require('moment')
 let mongoose = require("mongoose");
-let middleware = require("../services/middleware");
 let utils = require("../services/utils");
-let ejsComponents = require("../services/ejsComponents");
 let Listing = require("../models/listing");
-let User = require("../models/user");
-let { isLoggedIn, isNotLoggedIn, isAdmin, isPartialSignedUp } = middleware; // destructuring assignment
 
 // compare listing route
 router.get("/compare", function (req, res) {
@@ -136,22 +131,31 @@ router.delete("/favourite/:id", function (req, res) {
 
 // search route
 router.post("/search", function (req, res) {
-    const searchString = utils.getSearchObj(req.body);
-    Listing.find(searchString, function (err, foundListings) {
+    const dbQuery = utils.getDbQuery(req.body);
+    console.log(dbQuery);
+    Listing.countDocuments(dbQuery.searchQuery).exec((err, count) => {
         if (err) {
             console.log(err);
             res.status(400).send();
-        } else {
-            // res.render("listing/show", { listing: foundListing, page: "single-listing" });
-            console.log(foundListings.length);
-            const renderedListings = ejs.render(ejsComponents.homeSearchListings, { listings: foundListings, moment: moment });
-            const searchTabs = ejs.render(ejsComponents.homeSearchTags, { listingCount: foundListings.length, tags: req.body });
-            let data = {
-                listings: foundListings,
-                listingsHtml: renderedListings,
-                tagsHtml: searchTabs
-            }
-            res.status(200).send(data);
+        }
+        else {
+            Listing.find(dbQuery.searchQuery).skip(parseInt(req.body.skip)).limit(parseInt(req.body.limit)).sort(dbQuery.filter).exec((err, foundListings) => {
+                if (err) {
+                    console.log(err);
+                    res.status(400).send();
+                } else {
+                    console.log("Listings Found: " + count);
+                    let data = {
+                        listings: foundListings,
+                        listingsHtml: utils.renderListingsEjs({ listings: foundListings, moment: moment }, req.body.isListingSearch),
+                        tagsHtml: utils.renderTagsEjs({ listingCount: count, tags: req.body, type: req.body.type }, req.body.isListingSearch),
+                        paginationBar: utils.renderPaginationBarEjs({listingCount: count, pageNo: req.body.page, limit: req.body.limit}, req.body.isListingSearch),
+                        loadButton: utils.renderLoadButtonEjs({listingCount: count, pageNo: req.body.page, limit: req.body.limit}, req.body.isListingSearch),
+                        isListingSearch: req.body.isListingSearch ? true : false
+                    }
+                    res.status(200).send(data);
+                }
+            });
         }
     });
 });

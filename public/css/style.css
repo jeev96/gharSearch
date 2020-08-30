@@ -221,6 +221,23 @@ a {
 	font-size: 9px;
 }
 
+.badge-menubar {
+	font-family: Montserrat;
+	font-style: normal;
+	position: absolute;
+	top: 5px;
+    left: 30px;
+	width: 16px;
+	height: 16px;
+	line-height: 16px;
+	text-align: center;
+	border-radius: 50%;
+	background-color: #ccc;
+	overflow: hidden;
+	color: #fff;
+	font-size: 9px;
+}
+
 .badge.md {
 	top: -6px;
 	width: 22px;
@@ -233,7 +250,15 @@ a {
 	background-color: var(--mdc-theme-error);
 }
 
+.badge-menubar.warn {
+	background-color: var(--mdc-theme-error);
+}
+
 .badge.primary {
+	background-color: var(--mdc-theme-primary);
+}
+
+.badge-menubar.primary {
 	background-color: var(--mdc-theme-primary);
 }
 
@@ -2442,14 +2467,22 @@ main.content-offset-to-top .main-content-header {
 	cursor: pointer;
 }
 
+.theme-pagination .disabled {
+	color: var(--mdc-theme-text-secondary-on-background);
+}
+
+.theme-pagination .disabled:hover {
+	cursor: default;
+}
+
 .theme-pagination .current {
 	background: var(--mdc-theme-primary);
 	color: #fff;
 	cursor: default;
 }
 
-.theme-pagination .disabled {
-	color: var(--mdc-theme-text-secondary-on-background);
+.theme-pagination .current:hover {
+	cursor: default;
 }
 
 /**************************************************************/
@@ -3897,3 +3930,7 @@ footer .copyright .mdc-button {
 	margin: -16px;
 	padding: 8px;
 }
+
+.theme-pagination li:hover {
+	cursor: pointer;
+} 

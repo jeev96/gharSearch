@@ -424,7 +424,8 @@
                                     <a href="/listing/favourite" class="mdc-list-item" role="menuitem">
                                         <i class="material-icons mat-icon-sm text-muted">favorite_border</i>
                                         <span class="mdc-list-item__text px-3">Favorites
-                                            <span id="favourite-header" class="badge warn"><%= favourite.length %></span>
+                                            <span id="favourite-header"
+                                                class="badge warn"><%= favourite.length %></span>
                                         </span>
                                     </a>
                                 </li>
@@ -498,58 +499,34 @@
                         </a>
                         <div class="mdc-menu mdc-menu-surface">
                             <div class="mdc-list">
-                                <div class="mdc-menu-surface--anchor">
-                                    <div>
-                                        <a href="#" class="mdc-button menu-item-has-children">
-                                            <span class="mdc-button__ripple"></span>
-                                            <span class="mdc-button__label">Flats</span>
-                                        </a>
-                                    </div>
-                                    <div class="mdc-menu mdc-menu-surface">
-                                        <div class="mdc-list">
-                                            <div>
-                                                <a href="#" class="mdc-button">
-                                                    <span class="mdc-button__ripple"></span>
-                                                    <span class="mdc-button__label">1 BHK</span>
-                                                </a>
-                                            </div>
-                                            <div>
-                                                <a href="#" class="mdc-button">
-                                                    <span class="mdc-button__ripple"></span>
-                                                    <span class="mdc-button__label">2 BHK</span>
-                                                </a>
-                                            </div>
-                                            <div>
-                                                <a href="#" class="mdc-button">
-                                                    <span class="mdc-button__ripple"></span>
-                                                    <span class="mdc-button__label">3 BHK</span>
-                                                </a>
-                                            </div>
-                                            <div>
-                                                <a href="#" class="mdc-button">
-                                                    <span class="mdc-button__ripple"></span>
-                                                    <span class="mdc-button__label">3 BHK+</span>
-                                                </a>
-                                            </div>
-                                        </div>
-                                    </div>
+                                <div>
+                                    <a href="/filter/residential/flat" class="mdc-button">
+                                        <span class="mdc-button__ripple"></span>
+                                        <span class="mdc-button__label">Flats</span>
+                                    </a>
                                 </div>
                                 <div>
-                                    <a href="#" class="mdc-button">
+                                    <a href="/filter/residential/independenthouse" class="mdc-button">
                                         <span class="mdc-button__ripple"></span>
                                         <span class="mdc-button__label">Independent House</span>
                                     </a>
                                 </div>
                                 <div>
-                                    <a href="#" class="mdc-button">
+                                    <a href="/filter/residential/plot" class="mdc-button">
                                         <span class="mdc-button__ripple"></span>
                                         <span class="mdc-button__label">Plots</span>
                                     </a>
                                 </div>
                                 <div>
-                                    <a href="#" class="mdc-button">
+                                    <a href="/filter/residential/floor" class="mdc-button">
                                         <span class="mdc-button__ripple"></span>
                                         <span class="mdc-button__label">Floor</span>
+                                    </a>
+                                </div>
+                                <div>
+                                    <a href="/filter/residential" class="mdc-button">
+                                        <span class="mdc-button__ripple"></span>
+                                        <span class="mdc-button__label">All Residential</span>
                                     </a>
                                 </div>
                             </div>
@@ -563,92 +540,10 @@
                         <div class="mdc-menu mdc-menu-surface">
                             <div class="mdc-list">
                                 <div>
-                                    <a href="property.html" class="mdc-button">
+                                    <a href="/filter/commercial" class="mdc-button">
                                         <span class="mdc-button__ripple"></span>
-                                        <span class="mdc-button__label">Single Property</span>
+                                        <span class="mdc-button__label">All Commercial</span>
                                     </a>
-                                </div>
-                                <div>
-                                    <a href="agents.html" class="mdc-button">
-                                        <span class="mdc-button__ripple"></span>
-                                        <span class="mdc-button__label">Agents</span>
-                                    </a>
-                                </div>
-                                <div>
-                                    <a href="agent.html" class="mdc-button">
-                                        <span class="mdc-button__ripple"></span>
-                                        <span class="mdc-button__label">Agent</span>
-                                    </a>
-                                </div>
-                                <div>
-                                    <a href="login.html" class="mdc-button">
-                                        <span class="mdc-button__ripple"></span>
-                                        <span class="mdc-button__label">Login</span>
-                                    </a>
-                                </div>
-                                <div>
-                                    <a href="register.html" class="mdc-button">
-                                        <span class="mdc-button__ripple"></span>
-                                        <span class="mdc-button__label">Register</span>
-                                    </a>
-                                </div>
-                                <div>
-                                    <a href="faqs.html" class="mdc-button">
-                                        <span class="mdc-button__ripple"></span>
-                                        <span class="mdc-button__label">FAQs</span>
-                                    </a>
-                                </div>
-                                <div>
-                                    <a href="pricing.html" class="mdc-button">
-                                        <span class="mdc-button__ripple"></span>
-                                        <span class="mdc-button__label">Pricing</span>
-                                    </a>
-                                </div>
-                                <div>
-                                    <a href="terms.html" class="mdc-button">
-                                        <span class="mdc-button__ripple"></span>
-                                        <span class="mdc-button__label">Terms & Conditions</span>
-                                    </a>
-                                </div>
-                                <div>
-                                    <a href="index.html" class="mdc-button">
-                                        <span class="mdc-button__ripple"></span>
-                                        <span class="mdc-button__label">Landing</span>
-                                    </a>
-                                </div>
-                                <div>
-                                    <a href="404.html" class="mdc-button">
-                                        <span class="mdc-button__ripple"></span>
-                                        <span class="mdc-button__label">404 Page</span>
-                                    </a>
-                                </div>
-                                <div class="mdc-menu-surface--anchor">
-                                    <a href="#" class="mdc-button menu-item-has-children">
-                                        <span class="mdc-button__ripple"></span>
-                                        <span class="mdc-button__label">Other</span>
-                                    </a>
-                                    <div class="mdc-menu mdc-menu-surface">
-                                        <div class="mdc-list">
-                                            <div>
-                                                <a href="http://themeseason.com" target="_blank" class="mdc-button">
-                                                    <span class="mdc-button__ripple"></span>
-                                                    <span class="mdc-button__label">External Link</span>
-                                                </a>
-                                            </div>
-                                            <div>
-                                                <a href="#" class="mdc-button">
-                                                    <span class="mdc-button__ripple"></span>
-                                                    <span class="mdc-button__label">Menu Item</span>
-                                                </a>
-                                            </div>
-                                            <div>
-                                                <a href="#" class="mdc-button">
-                                                    <span class="mdc-button__ripple"></span>
-                                                    <span class="mdc-button__label">Menu Item</span>
-                                                </a>
-                                            </div>
-                                        </div>
-                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -668,9 +563,14 @@
                 </div>
                 <div class="row middle-xs">
                     <a href="/listing/favourite" class="mdc-icon-button material-icons d-none d-lg-flex d-xl-flex"
-                        title="Favorites">favorite_border</a>
-                    <a href="/listing/compare" class="mdc-icon-button material-icons d-none d-lg-flex d-xl-flex mr-3 ml-2"
-                        title="Compare list">compare_arrows</a>
+                        title="Favorites">favorite_border<i id="favourite-menubar"
+                            class="badge-menubar warn"><%= favourite.length %></i>
+                    </a>
+                    <a href="/listing/compare"
+                        class="mdc-icon-button material-icons d-none d-lg-flex d-xl-flex mr-3 ml-2"
+                        title="Compare list">compare_arrows<i id="compare-menubar"
+                            class="badge-menubar primary"><%= compare.length %></i>
+                    </a>
                     <a href="submit-property.html"
                         class="mdc-fab mdc-fab--mini primary d-sm-none d-md-none d-lg-none d-xl-none">
                         <span class="mdc-fab__ripple"></span>

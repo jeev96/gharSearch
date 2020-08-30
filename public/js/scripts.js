@@ -1,4 +1,20 @@
-let formData;
+// Defaults
+const DEFAULT_FILTER = 0;
+const DEFAULT_LIMIT = document.getElementById("isListingSearch") ? 9 : 8;
+const DEFAULT_SKIP = 0;
+const DEFAULT_PAGE = 1;
+
+// Query Extras
+let formData = [];
+let filter = DEFAULT_FILTER;
+let limit = DEFAULT_LIMIT;
+let skip = DEFAULT_SKIP;
+let page = DEFAULT_PAGE;
+
+function resetDefaults() {
+    skip = DEFAULT_SKIP;
+    page = DEFAULT_PAGE;
+}
 
 jQuery(document).ready(function () {
     onPageLoad()
@@ -22,6 +38,7 @@ function onPageLoad() {
         });
     };
 
+
     const dropDownMenus = Array.from(document.querySelectorAll('.mdc-menu-surface--anchor .mdc-menu')).filter(item => !item.parentNode.closest('.vertical-menu'));
     if (dropDownMenus.length) {
         dropDownMenus.forEach((dropDownMenu) => {
@@ -43,6 +60,11 @@ function onPageLoad() {
                     const mutable = $(dropdownToggle).find('.mdc-button__label > .mutable');
                     if (mutable.length) {
                         mutable[0].innerHTML = event.target.innerText;
+                        filter = $(option).data('value') ? $(option).data('value') : filter;
+                        limit = $(option).data('limit') ? $(option).data('limit') : limit;
+                        resetDefaults();
+
+                        searchListings(getFormData());
                     }
                 });
             }
@@ -376,15 +398,34 @@ function onPageLoad() {
         tagSearch($(this).data("value"));
     });
 
+    $("#listing-pagination li").on("click", function () {
+        if ($(this).hasClass("disabled")) {
+            return;
+        }
+        paginationSearch($(this).data("value"));
+    });
+
+    $("#home-more-button").on("click", function () {
+        loadMoreSearch($(this).data("value"));
+    });
+
     $("#filters").submit(function (event) {
         event.preventDefault();
         const searchString = getFilterFormData();
         formData = searchString;
         searchListings(searchString);
+        goToTop();
     });
 
+    function getFormData() {
+        if (formData.length === 0) {
+            formData = $("#filters").serializeArray();
+        }
+        return formData;
+    }
+
     function tagSearch(key) {
-        let searchString = formData;
+        let searchString = getFormData();
         let removeValue = key;
 
         for (let i = 0; i < searchString.length; i++) {
@@ -395,6 +436,20 @@ function onPageLoad() {
             }
         }
         searchListings(searchString);
+    }
+
+    function paginationSearch(newPage) {
+        page = newPage;
+        skip = (newPage - 1) * limit;
+
+        searchListings(getFormData());
+        goToTop();
+    }
+
+    function loadMoreSearch(newPage) {
+        limit = newPage * parseInt($("#selected-limit").text());
+        page = newPage;
+        searchListings(getFormData());
     }
 
     function getFilterFormData() {
@@ -410,17 +465,49 @@ function onPageLoad() {
     }
 
     function searchListings(searchString) {
+        addExtraQueryParams(searchString);
+
         $.post("/listing/search", searchString, function (data, status) {
-            let sortBar = $("#home-sort");
-            let loadButton = $("#home-more-button")
-            $("#home-listings").empty();
-            $("#home-listings").append($(data.tagsHtml));
-            $("#home-listings").append($(sortBar));
-            $("#home-listings").append($(data.listingsHtml));
-            $("#home-listings").append($(loadButton));
-            reInitHomeListings();
+            removeExtraQueryParams(searchString);
+            data.isListingSearch ? populateListingContent(data) : populateHomeContent(data);
+            reInitOptions();
             return;
         });
+    }
+
+    function addExtraQueryParams(searchString) {
+        searchString.push({ name: "filter", value: filter });
+        searchString.push({ name: "limit", value: limit });
+        searchString.push({ name: "skip", value: skip });
+        searchString.push({ name: "page", value: page });
+    }
+
+    function removeExtraQueryParams(searchString) {
+        searchString.splice(searchString.length - 4, 4)
+    }
+
+    function goToTop() {
+        $("html, body").animate({ scrollTop: $("#filters").offset().top }, "slow");
+    }
+
+    function populateHomeContent(data) {
+        let sortBar = $("#home-sort");
+        $("#home-listings").empty();
+        $("#home-listings").append($(data.tagsHtml));
+        $("#home-listings").append($(sortBar));
+        $("#home-listings").append($(data.listingsHtml));
+        $("#home-listings").append($(data.loadButton));
+        return;
+    }
+
+    function populateListingContent(data) {
+        let sortBar = $("#home-sort");
+        $("#home-listings").empty();
+        $("#home-listings").append($(sortBar));
+        $("#home-listings").append($(data.tagsHtml));
+        $("#home-listings").append($(data.listingsHtml));
+        $("#home-listings").append($(data.paginationBar));
+        return;
     }
 
     [].slice.call(document.querySelectorAll('.mdc-chip-set')).forEach(function (el) {
@@ -495,7 +582,7 @@ function onPageLoad() {
         }
     }
 
-    function reInitHomeListings() {
+    function reInitOptions() {
         property_item_carousel = null;
         property_item_carousel = new Swiper('.property-item .property-image>.swiper-container', {
             observer: true,
@@ -532,6 +619,17 @@ function onPageLoad() {
 
         $('.view-type').on("click", function () {
             setViewModes(this);
+        });
+
+        $("#home-more-button").on("click", function () {
+            loadMoreSearch($(this).data("value"));
+        });
+
+        $("#listing-pagination li").on("click", function () {
+            if ($(this).hasClass("disabled")) {
+                return;
+            }
+            paginationSearch($(this).data("value"));
         });
     }
 
@@ -713,6 +811,7 @@ function onPageLoad() {
                     console.log('Request done!');
                     let count = Number($('#favourite-header').text());
                     $('#favourite-header').text(count + 1);
+                    $('#favourite-menubar').text(count + 1);
                     add_favorites_snackbar.open();
                 })
                 .fail(function (jqxhr, settings, ex) {
@@ -734,6 +833,7 @@ function onPageLoad() {
                 let count = Number($('#favourite-count').text());
                 $('#favourite-count').text(count - 1);
                 $('#favourite-header').text(count - 1);
+                $('#favourite-menubar').text(count - 1);
                 button.parent().parent().remove();
             }
         });
@@ -745,6 +845,7 @@ function onPageLoad() {
             success: function (result) {
                 $('#favourite-count').text("0");
                 $('#favourite-header').text("0");
+                $('#favourite-menubar').text("0");
                 $('#favourite-list').empty();
             }
         });
@@ -762,6 +863,7 @@ function onPageLoad() {
                     console.log('Request done!');
                     let count = Number($('#compare-header').text());
                     $('#compare-header').text(count + 1);
+                    $('#compare-menubar').text(count + 1);
                     add_compare_snackbar.open();
                 })
                 .fail(function (jqxhr, settings, ex) {
@@ -783,6 +885,7 @@ function onPageLoad() {
                 let count = Number($('#compare-count').text());
                 $('#compare-count').text(count - 1);
                 $('#compare-header').text(count - 1);
+                $('#compare-menubar').text(count - 1);
                 button.parent().parent().parent().remove();
             }
         });
@@ -794,6 +897,7 @@ function onPageLoad() {
             success: function (result) {
                 $('#compare-count').text("0");
                 $('#compare-header').text("0");
+                $('#compare-menubar').text("0");
                 $('#compare-list').empty();
             }
         });

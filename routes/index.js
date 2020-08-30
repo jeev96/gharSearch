@@ -1,11 +1,9 @@
-let express = require("express");
-let router = express.Router();
-let passport = require("passport");
-let middleware = require("../services/middleware");
-let utils = require("../services/utils");
-let Listing = require("../models/listing");
-let User = require("../models/user");
-let { isLoggedIn, isNotLoggedIn, isAdmin, isPartialSignedUp } = middleware; // destructuring assignment
+const express = require("express");
+const router = express.Router();
+const utils = require("../services/utils");
+const dbConstants = require("../constants/dbConstants");
+const Listing = require("../models/listing");
+const { subtype } = require("../constants/listingType");
 
 // root route
 router.get("/", function (req, res) {
@@ -14,7 +12,7 @@ router.get("/", function (req, res) {
             console.log(err);
         } else {
             let featuredListings = allListings.filter((listing) => {
-                if(listing.listingInfo && listing.listingInfo.tags) {
+                if (listing.listingInfo && listing.listingInfo.tags) {
                     if (listing.listingInfo.tags.indexOf("FEATURED") > -1) {
                         return true;
                     } else {
@@ -22,8 +20,10 @@ router.get("/", function (req, res) {
                     }
                 }
                 return false;
-            })
-            res.render("index/home", { listings: allListings, featuredListings: featuredListings, page: "home" });
+            });
+            let count = allListings.length;
+            allListings = allListings.slice(0, dbConstants.DEFAULT_LIMIT_HOME);
+            res.render("index/home", { listings: allListings, listingCount: count, featuredListings: featuredListings, page: "home" });
         }
     });
 });
@@ -37,6 +37,5 @@ router.get("/contact", function (req, res) {
 router.get("/about", function (req, res) {
     res.render("index/about", { page: "about" });
 });
-
 
 module.exports = router;

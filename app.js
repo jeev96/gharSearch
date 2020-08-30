@@ -1,4 +1,4 @@
-let express = require("express"),
+const express = require("express"),
     app = express(),
     bodyParser = require("body-parser"),
     mongoose = require("mongoose"),
@@ -14,7 +14,9 @@ let express = require("express"),
 // configure dotenv
 require('dotenv').config();
 
+// routes
 let indexRoutes = require("./routes/index");
+let filterRoutes = require("./routes/filter");
 let listingRoutes = require("./routes/listing");
 
 // assign mongoose promise library and connect to database
@@ -70,6 +72,7 @@ app.use(function (req, res, next) {
 
 // root route
 app.use("/", indexRoutes);
+app.use("/filter", filterRoutes);
 app.use("/listing", listingRoutes);
 
 app.listen(3000, function () {
