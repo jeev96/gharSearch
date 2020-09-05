@@ -162,10 +162,6 @@
                                 <span>City:</span>
                                 <span><%= listing.location.place %></span>
                             </div>
-                            <!-- <div class="row col-xs-12 col-sm-6 item">
-                                <span>Zip Code:</span>
-                                <span>60604</span>
-                            </div> -->
 
                             <!-- <div class="row col-xs-12 col-sm-6 item">
                                 <span>Street:</span>
@@ -421,10 +417,10 @@
                         </div>
                         <div class="widget">
                             <div class="widget-title bg-primary">Reply to the listing</div>
-                            <form action="javascript:void(0);">
+                            <form id="leads" action="javascript:void(0);">
                                 <p>Interested in renting or buying this property? Then send us an email.</p>
                                 <div class="mdc-text-field mdc-text-field--outlined w-100 custom-field my-2">
-                                    <input class="mdc-text-field__input">
+                                    <input name="name" class="mdc-text-field__input" autocomplete="name">
                                     <div class="mdc-notched-outline">
                                         <div class="mdc-notched-outline__leading"></div>
                                         <div class="mdc-notched-outline__notch">
@@ -434,7 +430,7 @@
                                     </div>
                                 </div>
                                 <div class="mdc-text-field mdc-text-field--outlined w-100 custom-field my-2">
-                                    <input class="mdc-text-field__input">
+                                    <input name="email" type="email" class="mdc-text-field__input" autocomplete="email">
                                     <div class="mdc-notched-outline">
                                         <div class="mdc-notched-outline__leading"></div>
                                         <div class="mdc-notched-outline__notch">
@@ -444,7 +440,8 @@
                                     </div>
                                 </div>
                                 <div class="mdc-text-field mdc-text-field--outlined w-100 custom-field my-2">
-                                    <input class="mdc-text-field__input">
+                                    <input id="phone" name="phone" type="tel" placeholder="+91 9876543210"
+                                        class="mdc-text-field__input" autocomplete="tel">
                                     <div class="mdc-notched-outline">
                                         <div class="mdc-notched-outline__leading"></div>
                                         <div class="mdc-notched-outline__notch">
@@ -455,7 +452,7 @@
                                 </div>
                                 <div
                                     class="mdc-text-field mdc-text-field--outlined mdc-text-field--textarea w-100 custom-field my-2">
-                                    <textarea class="mdc-text-field__input" rows="5"
+                                    <textarea name="message" class="mdc-text-field__input" rows="5"
                                         placeholder="Message is required"></textarea>
                                     <div class="mdc-notched-outline mdc-notched-outline--upgraded">
                                         <div class="mdc-notched-outline__leading"></div>
@@ -465,19 +462,22 @@
                                         <div class="mdc-notched-outline__trailing"></div>
                                     </div>
                                 </div>
+                                <input type="hidden" name="listing_id" value="<%= listing._id %>">
                                 <div class="row around-xs middle-xs p-2 mb-3">
-                                    <button class="mdc-button mdc-button--raised bg-accent" type="button">
+                                    <button class="mdc-button mdc-button--raised bg-accent" type="submit">
                                         <span class="mdc-button__ripple"></span>
                                         <span class="mdc-button__label">Send email</span>
                                     </button>
                                 </div>
+                                <p id="lead-success" class="primary-color d-none"></p>
                             </form>
                         </div>
                         <div class="widget">
-                            <div class="widget-title bg-primary">Mortgage Calculator</div>
-                            <form action="javascript:void(0);">
+                            <div class="widget-title bg-primary">Loan Calculator</div>
+                            <form id="loan-calculator" action="javascript:void(0);">
                                 <div class="mdc-text-field mdc-text-field--outlined w-100 custom-field my-2">
-                                    <input class="mdc-text-field__input" placeholder="$">
+                                    <input type="number" name="principal" min="1" class="mdc-text-field__input"
+                                        placeholder="₹" required>
                                     <div class="mdc-notched-outline">
                                         <div class="mdc-notched-outline__leading"></div>
                                         <div class="mdc-notched-outline__notch">
@@ -487,17 +487,8 @@
                                     </div>
                                 </div>
                                 <div class="mdc-text-field mdc-text-field--outlined w-100 custom-field my-2">
-                                    <input class="mdc-text-field__input" placeholder="$">
-                                    <div class="mdc-notched-outline">
-                                        <div class="mdc-notched-outline__leading"></div>
-                                        <div class="mdc-notched-outline__notch">
-                                            <label class="mdc-floating-label">Down Payment</label>
-                                        </div>
-                                        <div class="mdc-notched-outline__trailing"></div>
-                                    </div>
-                                </div>
-                                <div class="mdc-text-field mdc-text-field--outlined w-100 custom-field my-2">
-                                    <input class="mdc-text-field__input" placeholder="%">
+                                    <input type="number" step="0.01" min="0.01" name="interest"
+                                        class="mdc-text-field__input" placeholder="9.15%" required>
                                     <div class="mdc-notched-outline">
                                         <div class="mdc-notched-outline__leading"></div>
                                         <div class="mdc-notched-outline__notch">
@@ -507,7 +498,8 @@
                                     </div>
                                 </div>
                                 <div class="mdc-text-field mdc-text-field--outlined w-100 custom-field my-2">
-                                    <input class="mdc-text-field__input" placeholder="Number of Years">
+                                    <input type="number" name="term" min="1" class="mdc-text-field__input"
+                                        placeholder="Number of Years" required>
                                     <div class="mdc-notched-outline">
                                         <div class="mdc-notched-outline__leading"></div>
                                         <div class="mdc-notched-outline__notch">
@@ -517,12 +509,30 @@
                                     </div>
                                 </div>
                                 <div class="row around-xs middle-xs p-2 mb-3">
-                                    <button class="mdc-button mdc-button--raised bg-accent" type="button">
+                                    <button class="mdc-button mdc-button--raised bg-accent" type="submit">
                                         <span class="mdc-button__ripple"></span>
                                         <span class="mdc-button__label">Calculate Mortgage</span>
                                     </button>
                                 </div>
                             </form>
+                            <div id="loan-details" class="d-none mdc-card property-item grid-item column-3 mb-3">
+                                <div class="property-content-wrapper">
+                                    <div class="property-content">
+                                        <div class="content">
+                                            <div class="row between-xs middle-xs">
+                                                <h3 class="primary-color price">
+                                                    <span id="monthly-payment">Monthly Payment</span>
+                                                </h3>
+                                            </div>
+                                            <div class="features mt-3">
+                                                <p><span>Total Payement</span><span id="total-payment"></span></p>
+                                                <p><span>Total Interest Paid</span><span id="total-interest"></span></p>
+                                                <p><span>Interest Ratio</span><span id="interest-ratio"></span></p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                         <div class="widget">
                             <div class="widget-title bg-primary">Featured Properties</div>

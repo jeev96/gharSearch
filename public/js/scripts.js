@@ -394,6 +394,10 @@ function onPageLoad() {
         return mdc.checkbox.MDCCheckbox.attachTo(el);
     });
 
+    $("#phone").on("click", function () {
+        $("#phone").val("+91 ");
+    })
+
     $(".mdc-chip span i").on("click", function () {
         tagSearch($(this).data("value"));
     });
@@ -415,6 +419,44 @@ function onPageLoad() {
         formData = searchString;
         searchListings(searchString);
         goToTop();
+    });
+
+    $("#leads").submit(function (event) {
+        event.preventDefault();
+        let inputData = $("#leads").serializeArray()
+        $.post("/lead", inputData, function (data, status) {
+            if (status === "success") {
+                console.log("Success");
+                $("#lead-success").text("Request Sent. You will be contacted shortly.");
+                $("#lead-success").removeClass("d-none warn-color");
+                $("#lead-success").addClass("primary-color");
+                $("#leads").trigger("reset");
+                return;
+            } else {
+                console.log("Faliure");
+                $("#lead-success").text("Some Error Occurred. Try Again");
+                $("#lead-success").removeClass("d-none primary-color");
+                $("#lead-success").addClass("warn-color");
+                return;
+            }
+        });
+    });
+
+    $("#loan-calculator").submit(function (event) {
+        event.preventDefault();
+        let data = {}
+        $.each($("#loan-calculator").serializeArray(), function (_, kv) {
+            data[kv.name] = kv.value;
+        });
+
+        let loanDetails = getLoanDetails(data);
+
+        $("#monthly-payment").text("Monthly Payment " + formatCurrency(loanDetails.monthlyPayment));
+        $("#total-payment").text(formatCurrency(loanDetails.totalPayment));
+        $("#total-interest").text(formatCurrency(loanDetails.totalInterest));
+        $("#interest-ratio").text(loanDetails.interestRatio + "%");
+
+        $("#loan-details").removeClass("d-none");
     });
 
     function getFormData(isTagFetch) {
@@ -456,7 +498,7 @@ function onPageLoad() {
     }
 
     function getFilterFormData() {
-        var searchString = $("#filters").serializeArray();
+        let searchString = $("#filters").serializeArray();
         let inputData = $("#filters li.mdc-list-item--selected");
         for (let i = 0; i < inputData.length; i++) {
             searchString.push({
@@ -511,6 +553,35 @@ function onPageLoad() {
         $("#home-listings").append($(data.listingsHtml));
         $("#home-listings").append($(data.paginationBar));
         return;
+    }
+
+    function getLoanDetails(data) {
+        let principal = parseFloat(data.principal);
+        let interest = parseFloat(data.interest);
+        let term = parseFloat(data.term);
+
+        let percentageRate = interest / 1200;
+        let lengthOfLoan = 12 * term;
+        let monthlyPayment = (principal * percentageRate) / (1 - (Math.pow((1 + percentageRate), lengthOfLoan * -1)));
+        let totalPayment = monthlyPayment * lengthOfLoan;
+        let totalInterest = (monthlyPayment * lengthOfLoan) - principal;
+        let interestRatio = (totalInterest / totalPayment) * 100;
+        return {
+            monthlyPayment: monthlyPayment.toFixed(2),
+            totalPayment: totalPayment.toFixed(2),
+            totalInterest: totalInterest.toFixed(2),
+            interestRatio: interestRatio.toFixed(2)
+        }
+    }
+
+    function formatCurrency(value) {
+        return new Intl.NumberFormat('en-IN',
+            {
+                style: 'currency',
+                currency: 'INR',
+                minimumFractionDigits: 2,
+                maximumFractionDigits: 2
+            }).format(value)
     }
 
     [].slice.call(document.querySelectorAll('.mdc-chip-set')).forEach(function (el) {

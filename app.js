@@ -18,6 +18,7 @@ require('dotenv').config();
 let indexRoutes = require("./routes/index");
 let filterRoutes = require("./routes/filter");
 let listingRoutes = require("./routes/listing");
+let leadRoutes = require("./routes/lead");
 
 // assign mongoose promise library and connect to database
 mongoose.Promise = global.Promise;
@@ -74,6 +75,7 @@ app.use(function (req, res, next) {
 app.use("/", indexRoutes);
 app.use("/filter", filterRoutes);
 app.use("/listing", listingRoutes);
+app.use("/lead", leadRoutes);
 
 app.listen(3000, function () {
     console.log("The server has started!");
