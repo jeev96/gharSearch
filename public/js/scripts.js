@@ -417,15 +417,18 @@ function onPageLoad() {
         goToTop();
     });
 
-    function getFormData() {
+    function getFormData(isTagFetch) {
         if (formData.length === 0) {
             formData = $("#filters").serializeArray();
+            if (!isTagFetch && $("#isListingSearchSubtype").length === 1) {
+                formData.push({ name: "subType", value: $("#isListingSearchSubtype").attr("value") });
+            }
         }
         return formData;
     }
 
     function tagSearch(key) {
-        let searchString = getFormData();
+        let searchString = getFormData(true);
         let removeValue = key;
 
         for (let i = 0; i < searchString.length; i++) {
@@ -631,6 +634,55 @@ function onPageLoad() {
             }
             paginationSearch($(this).data("value"));
         });
+
+        initAddToFavorites();
+        initAddToCompare();
+    }
+
+    function initAddToFavorites() {
+        const add_favorites_snackbar = mdc.snackbar.MDCSnackbar.attachTo(favorites_snackbar);
+        $('.add-to-favorite').on('click', function () {
+            $.post('/listing/favourite', { id: $(this).data("value") }, function (data, status, xhr) {
+                console.log('Request sent!');
+            })
+                .done(function () {
+                    console.log('Request done!');
+                    let count = Number($('#favourite-header').text());
+                    $('#favourite-header').text(count + 1);
+                    $('#favourite-menubar').text(count + 1);
+                    add_favorites_snackbar.open();
+                })
+                .fail(function (jqxhr, settings, ex) {
+                    console.log('failed, ' + ex);
+                    if (jqxhr.status === 409)
+                        add_conflict_snackbar.open();
+                    else
+                        add_error_snackbar.open();
+                });
+        });
+    }
+
+    function initAddToCompare() {
+        const add_compare_snackbar = mdc.snackbar.MDCSnackbar.attachTo(compare_snackbar);
+        $('.add-to-compare').on('click', function () {
+            $.post('/listing/compare', { id: $(this).data("value") }, function (data, status, xhr) {
+                console.log('Request sent!');
+            })
+                .done(function () {
+                    console.log('Request done!');
+                    let count = Number($('#compare-header').text());
+                    $('#compare-header').text(count + 1);
+                    $('#compare-menubar').text(count + 1);
+                    add_compare_snackbar.open();
+                })
+                .fail(function (jqxhr, settings, ex) {
+                    console.log('failed, ' + ex);
+                    if (jqxhr.status === 409)
+                        add_conflict_snackbar.open();
+                    else
+                        add_error_snackbar.open();
+                });
+        });
     }
 
     $(".subscribe-input").on("focus", function () {
@@ -802,26 +854,7 @@ function onPageLoad() {
 
     var favorites_snackbar = document.getElementById('favorites-snackbar');
     if (favorites_snackbar) {
-        const add_favorites_snackbar = mdc.snackbar.MDCSnackbar.attachTo(favorites_snackbar);
-        $('.add-to-favorite').on('click', function () {
-            $.post('/listing/favourite', { id: $(this).data("value") }, function (data, status, xhr) {
-                console.log('Request sent!');
-            })
-                .done(function () {
-                    console.log('Request done!');
-                    let count = Number($('#favourite-header').text());
-                    $('#favourite-header').text(count + 1);
-                    $('#favourite-menubar').text(count + 1);
-                    add_favorites_snackbar.open();
-                })
-                .fail(function (jqxhr, settings, ex) {
-                    console.log('failed, ' + ex);
-                    if (jqxhr.status === 409)
-                        add_conflict_snackbar.open();
-                    else
-                        add_error_snackbar.open();
-                });
-        });
+        initAddToFavorites();
     };
 
     $('.favourite-remove').on('click', function () {
@@ -854,26 +887,7 @@ function onPageLoad() {
 
     var compare_snackbar = document.getElementById('compare-snackbar');
     if (compare_snackbar) {
-        const add_compare_snackbar = mdc.snackbar.MDCSnackbar.attachTo(compare_snackbar);
-        $('.add-to-compare').on('click', function () {
-            $.post('/listing/compare', { id: $(this).data("value") }, function (data, status, xhr) {
-                console.log('Request sent!');
-            })
-                .done(function () {
-                    console.log('Request done!');
-                    let count = Number($('#compare-header').text());
-                    $('#compare-header').text(count + 1);
-                    $('#compare-menubar').text(count + 1);
-                    add_compare_snackbar.open();
-                })
-                .fail(function (jqxhr, settings, ex) {
-                    console.log('failed, ' + ex);
-                    if (jqxhr.status === 409)
-                        add_conflict_snackbar.open();
-                    else
-                        add_error_snackbar.open();
-                });
-        });
+        initAddToCompare();
     };
 
     $('.compare-remove').on('click', function () {

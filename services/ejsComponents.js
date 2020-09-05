@@ -169,7 +169,7 @@ module.exports = {
                             title="Add To Favorite">
                             <i class="material-icons mat-icon-sm">favorite_border</i>
                         </button>
-                        <button class="mdc-button" data-value="<%= listing._id %>"
+                        <button class="mdc-button add-to-compare" data-value="<%= listing._id %>"
                             title="Add To Compare">
                             <i class="material-icons mat-icon-sm">compare_arrows</i>
                         </button>
@@ -278,7 +278,7 @@ module.exports = {
                         <span role="button" tabindex="0" class="mdc-chip__text uppercase"><%= type %></span>
                     </span>
                 </div>
-                <% let excludedKeys = ["filter", "limit", "skip", "isListingSearch", "type", "page"] %>
+                <% let excludedKeys = ["filter", "limit", "skip", "isListingSearch", "type", "page", "isListingSearchSubtype"] %>
                 <% for(key in tags) { %>
                     <% if (tags[key] && (excludedKeys.indexOf(key) === -1)) { %>
                     <div class="mdc-chip">
@@ -286,8 +286,9 @@ module.exports = {
                         <span>
                         <% let tagTitle = key.toUpperCase(); tagTitle = tagTitle.replace("TO", " <");
                             tagTitle = tagTitle.replace("FROM", " >");
+                            tagTitle = ["SUBTYPE", "PLACE"].indexOf(tagTitle) > -1 ? "" : tagTitle + " ";
                         %>
-                            <span role="button" tabindex="0" class="mdc-chip__text"><%= tagTitle + " " + tags[key] %></span>
+                            <span role="button" tabindex="0" class="mdc-chip__text"><%= tagTitle + tags[key] %></span>
                         </span>
                         <span>
                             <i data-value="<%= key %>" class="material-icons mdc-chip__icon mdc-chip__icon--trailing" tabindex="-1"

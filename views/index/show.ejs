@@ -422,7 +422,7 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="col-xs-12 mb-2">
+                                <!-- <div class="col-xs-12 mb-2">
                                     <p class="uppercase m-2 fw-500">Features</p>
                                     <div class="features column">
                                         <div class="mdc-form-field">
@@ -575,10 +575,15 @@
                                             <label for="gym">Gym</label>
                                         </div>
                                     </div>
-                                </div>
+                                </div> -->
                             </div>
                             <input type="hidden" name="type" value="<%= type %>">
                             <input id="isListingSearch" type="hidden" name="isListingSearch" value="true">
+                            <% if (subtype) { %>
+                            <input id="isListingSearchSubtype" type="hidden" name="isListingSearchSubtype"
+                                value="<%= subtype %>">
+                            <% } %>
+
                             <div class="row around-xs middle-xs p-2 mb-3">
                                 <button class="mdc-button mdc-button--raised bg-warn" type="button" id="clear-filter">
                                     <span class="mdc-button__ripple"></span>
@@ -694,8 +699,7 @@
                                 <div class="mdc-chip">
                                     <div class="mdc-chip__ripple"></div>
                                     <span>
-                                        <span role="button" tabindex="0"
-                                            class="mdc-chip__text"><%= subtype %></span>
+                                        <span role="button" tabindex="0" class="mdc-chip__text"><%= subtype %></span>
                                     </span>
                                     <span>
                                         <i data-value="<%= subtype %>"
@@ -767,7 +771,7 @@
                                             title="Add To Favorite">
                                             <i class="material-icons mat-icon-sm">favorite_border</i>
                                         </button>
-                                        <button class="mdc-button" data-value="<%= listing._id %>"
+                                        <button class="mdc-button add-to-compare" data-value="<%= listing._id %>"
                                             title="Add To Compare">
                                             <i class="material-icons mat-icon-sm">compare_arrows</i>
                                         </button>
